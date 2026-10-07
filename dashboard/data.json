@@ -1,0 +1,143 @@
+{
+    "devices": [
+        {
+            "name": "FortiGate FW-1",
+            "ip": "10.0.0.1",
+            "status": "online",
+            "ping": 2
+        },
+        {
+            "name": "Windows Server",
+            "ip": "192.168.60.100",
+            "status": "online",
+            "ping": 1
+        },
+        {
+            "name": "IOU1 Core SW",
+            "ip": "10.0.1.2",
+            "status": "online",
+            "ping": 3
+        },
+        {
+            "name": "IOU2 Core SW",
+            "ip": "10.0.2.2",
+            "status": "online",
+            "ping": 5
+        },
+        {
+            "name": "R1 Router",
+            "ip": "192.168.60.20",
+            "status": "online",
+            "ping": 12
+        },
+        {
+            "name": "Sales-1 PC",
+            "ip": "192.168.10.10",
+            "status": "online",
+            "ping": 18
+        },
+        {
+            "name": "HR-1 PC",
+            "ip": "192.168.20.10",
+            "status": "online",
+            "ping": 15
+        },
+        {
+            "name": "Finance-1 PC",
+            "ip": "192.168.30.10",
+            "status": "online",
+            "ping": 14
+        },
+        {
+            "name": "Manager-1 PC",
+            "ip": "192.168.40.10",
+            "status": "online",
+            "ping": 10
+        },
+        {
+            "name": "IT-1 PC",
+            "ip": "192.168.50.10",
+            "status": "online",
+            "ping": 9
+        }
+    ],
+    "users": [
+        {
+            "name": "Ahmed Adel",
+            "department": "Finance",
+            "time": "08:30"
+        },
+        {
+            "name": "Sara Mohamed",
+            "department": "HR",
+            "time": "09:15"
+        },
+        {
+            "name": "Khaled Hassan",
+            "department": "IT",
+            "time": "07:45"
+        },
+        {
+            "name": "Mona Ibrahim",
+            "department": "Sales",
+            "time": "09:00"
+        },
+        {
+            "name": "Omar Tarek",
+            "department": "Manager",
+            "time": "08:00"
+        }
+    ],
+    "alerts": [
+        {
+            "type": "info",
+            "title": "HSRP Redundancy Ready (inferred)",
+            "msg": "IOU1 and IOU2 both reachable. State is inferred from ping, not read from HSRP.",
+            "time": "stable"
+        },
+        {
+            "type": "ok",
+            "title": "Firewall Reachable",
+            "msg": "FortiGate FW-1 is responding to ICMP.",
+            "time": "running"
+        }
+    ],
+    "services": {
+        "coreLoad": 23,
+        "memLoad": 48,
+        "dhcpPools": [
+            {
+                "name": "VLAN 10",
+                "used": 45,
+                "color": "var(--sales)"
+            },
+            {
+                "name": "VLAN 20",
+                "used": 20,
+                "color": "var(--hr)"
+            },
+            {
+                "name": "VLAN 30",
+                "used": 35,
+                "color": "var(--finance)"
+            },
+            {
+                "name": "VLAN 40",
+                "used": 15,
+                "color": "var(--manager)"
+            },
+            {
+                "name": "VLAN 50",
+                "used": 60,
+                "color": "var(--it)"
+            }
+        ]
+    },
+    "sources": {
+        "ping": "sample",
+        "ad": "sample",
+        "dhcp": "sample",
+        "system": "sample"
+    },
+    "timestamp": "09:00:00 AM"
+}

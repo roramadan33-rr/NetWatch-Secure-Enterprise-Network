@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetWatch — Network Monitor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div class="login-page" id="login-page">
+        <div class="login-bg-overlay"></div>
+        <div class="login-box">
+            <div class="login-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                    <path d="M8 21h8M12 17v4"></path>
+                    <circle cx="7" cy="10" r="1.5" fill="#00d4ff" stroke="none"></circle>
+                    <circle cx="17" cy="10" r="1.5" fill="#00d4ff" stroke="none"></circle>
+                    <path d="M7 10h10" stroke-dasharray="2 2"></path>
+                </svg>
+            </div>
+            <div class="login-title">NETWATCH</div>
+            <div class="login-sub">STARTUP INFRASTRUCTURE</div>
+
+            <div class="login-form-group">
+                <label class="login-label">Username</label>
+                <input class="login-input" type="text" id="login-user" placeholder="Enter username"
+                    autocomplete="off" />
+            </div>
+            <div class="login-form-group">
+                <label class="login-label">Password</label>
+                <input class="login-input" type="password" id="login-pass" placeholder="Enter password" />
+            </div>
+
+            <button class="login-btn" id="login-btn">ACCESS DASHBOARD</button>
+            <div class="login-error" id="login-error">Invalid credentials. Please try again.</div>
+        </div>
+    </div>
+
+    <div class="grid-bg"></div>
+
+    <div class="wrapper" id="main-content">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                        <path d="M8 21h8M12 17v4"></path>
+                        <circle cx="7" cy="10" r="1.5" fill="#00d4ff" stroke="none"></circle>
+                        <circle cx="17" cy="10" r="1.5" fill="#00d4ff" stroke="none"></circle>
+                        <path d="M7 10h10" stroke-dasharray="2 2"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="logo-text">NETWATCH</div>
+                    <div class="logo-sub">STARTUP INFRASTRUCTURE - network.local</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    LIVE MONITORING
+                </div>
+                <div class="clock" id="clock">--:--:--</div>
+                <button class="glass-btn" id="refresh-btn">⟳ REFRESH</button>
+                <button class="glass-btn danger" id="logout-btn">LOGOUT</button>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            <!-- TOP ROW: METRICS -->
+            <div class="metrics">
+                <div class="metric-card glass-panel blue">
+                    <div class="metric-label">Total Devices</div>
+                    <div class="metric-value blue" id="m-total">--</div>
+                    <div class="metric-sub">monitored</div>
+                </div>
+                <div class="metric-card glass-panel green">
+                    <div class="metric-label">Online</div>
+                    <div class="metric-value green" id="m-online">--</div>
+                    <div class="metric-sub">responding</div>
+                </div>
+                <div class="metric-card glass-panel red">
+                    <div class="metric-label">Offline</div>
+                    <div class="metric-value red" id="m-offline">--</div>
+                    <div class="metric-sub">no response</div>
+                </div>
+                <div class="metric-card glass-panel amber">
+                    <div class="metric-label">Avg Ping</div>
+                    <div class="metric-value amber" id="m-ping">--</div>
+                    <div class="metric-sub">milliseconds</div>
+                </div>
+                <div class="metric-card glass-panel purple">
+                    <div class="metric-label">Active Users</div>
+                    <div class="metric-value purple" id="m-users">--</div>
+                    <div class="metric-sub">domain accounts</div>
+                </div>
+            </div>
+
+            <!-- MIDDLE ROW -->
+            <div class="middle-section">
+                <!-- LEFT: DEVICES -->
+                <div class="glass-panel panel-flex">
+                    <div class="panel-header">
+                        <div class="panel-title">// Device Ping Monitor</div>
+                        <span class="tag green" id="ping-status">LOADING</span>
+                    </div>
+                    <div class="panel-body scrollable-y">
+                        <div class="devices-grid" id="devices-grid">
+                            <div class="loading">Scanning devices...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CENTER: TOPOLOGY -->
+                <div class="glass-panel panel-flex">
+                    <div class="panel-header">
+                        <div class="panel-title">// Topology View</div>
+                        <span class="tag accent">HIERARCHICAL</span>
+                    </div>
+                    <div class="panel-body flex-center">
+                        <svg width="100%" height="100%" viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet"
+                            class="topology-svg" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="350" cy="22" rx="60" ry="16" fill="none" stroke="rgba(0,212,255,0.3)"
+                                stroke-width="1.5" stroke-dasharray="4 2" />
+                            <text x="350" y="26" text-anchor="middle" fill="#5e7a9e" font-size="11">CLOUD / ISP</text>
+
+                            <line x1="350" y1="38" x2="350" y2="62" stroke="rgba(0,102,255,0.5)" stroke-width="1.5" />
+
+                            <!-- FW -->
+                            <rect x="295" y="62" width="110" height="38" rx="8" fill="rgba(6,10,20,0.8)"
+                                stroke="#00d4ff" stroke-width="1.5" />
+                            <text x="350" y="78" text-anchor="middle" class="fw-text">FW-1</text>
+                            <text x="350" y="92" text-anchor="middle">FortiGate Firewall</text>
+                            <circle cx="350" cy="68" r="4" fill="#00fa9a">
+                                <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                            </circle>
+
+                            <line x1="350" y1="100" x2="350" y2="122" stroke="rgba(0,102,255,0.5)" stroke-width="1.5" />
+
+                            <!-- R1 -->
+                            <rect x="308" y="122" width="84" height="32" rx="6" fill="rgba(6,10,20,0.8)"
+                                stroke="rgba(0,212,255,0.5)" stroke-width="1.5" />
+                            <text x="350" y="136" text-anchor="middle" class="sw-text">R1 ROUTER</text>
+                            <text x="350" y="148" text-anchor="middle">10.0.1.1</text>
+
+                            <line x1="328" y1="154" x2="195" y2="178" stroke="rgba(0,102,255,0.5)" stroke-width="1.5" />
+                            <line x1="372" y1="154" x2="505" y2="178" stroke="rgba(0,102,255,0.5)" stroke-width="1.5" />
+
+                            <!-- IOU1 & 2 -->
+                            <rect x="130" y="178" width="130" height="38" rx="8" fill="rgba(6,10,20,0.8)"
+                                stroke="#0066ff" stroke-width="2" />
+                            <text x="195" y="196" text-anchor="middle" class="sw-text">IOU1</text>
+                            <text x="195" y="208" text-anchor="middle">Primary Core — Active</text>
+                            <circle cx="140" cy="186" r="4" fill="#00fa9a">
+                                <animate attributeName="opacity" values="1;0.4;1" dur="2.2s" repeatCount="indefinite" />
+                            </circle>
+
+                            <rect x="440" y="178" width="130" height="38" rx="8" fill="rgba(6,10,20,0.8)"
+                                stroke="#0066ff" stroke-width="2" />
+                            <text x="505" y="196" text-anchor="middle" class="sw-text">IOU2</text>
+                            <text x="505" y="208" text-anchor="middle">Backup Core — Standby</text>
+                            <circle cx="450" cy="186" r="4" fill="#0066ff">
+                                <animate attributeName="opacity" values="1;0.4;1" dur="2.8s" repeatCount="indefinite" />
+                            </circle>
+
+                            <line x1="260" y1="197" x2="440" y2="197" stroke="rgba(191,90,242,0.5)" stroke-width="1.5"
+                                stroke-dasharray="4 4" />
+                            <text x="350" y="193" text-anchor="middle" fill="#5e7a9e" font-size="9">REDUNDANT
+                                LINK</text>
+
+                            <!-- Switch lines & rects -->
+                            <line x1="155" y1="216" x2="55" y2="242" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="1.5" />
+                            <line x1="185" y1="216" x2="165" y2="242" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="1.5" />
+                            <line x1="215" y1="216" x2="290" y2="242" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="1.5" />
+                            <line x1="465" y1="216" x2="395" y2="242" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="1.5" />
+                            <line x1="505" y1="216" x2="510" y2="242" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="1.5" />
+                            <line x1="545" y1="216" x2="625" y2="242" stroke="rgba(191,90,242,0.2)"
+                                stroke-width="1.5" />
+
+                            <rect x="20" y="242" width="70" height="18" rx="4" fill="#050810"
+                                stroke="rgba(0,102,255,0.4)" stroke-width="1" />
+                            <text x="55" y="254" text-anchor="middle">SW1-Sales</text>
+
+                            <rect x="128" y="242" width="70" height="18" rx="4" fill="#050810"
+                                stroke="rgba(0,102,255,0.4)" stroke-width="1" />
+                            <text x="163" y="254" text-anchor="middle">SW2-HR</text>
+
+                            <rect x="255" y="242" width="70" height="18" rx="4" fill="#050810"
+                                stroke="rgba(0,102,255,0.4)" stroke-width="1" />
+                            <text x="290" y="254" text-anchor="middle">SW3-Finance</text>
+
+                            <rect x="358" y="242" width="70" height="18" rx="4" fill="#050810"
+                                stroke="rgba(0,102,255,0.4)" stroke-width="1" />
+                            <text x="393" y="254" text-anchor="middle">SW4-Mgr</text>
+
+                            <rect x="475" y="242" width="70" height="18" rx="4" fill="#050810"
+                                stroke="rgba(0,102,255,0.4)" stroke-width="1" />
+                            <text x="510" y="254" text-anchor="middle">SW5-IT</text>
+
+                            <rect x="590" y="242" width="70" height="18" rx="4" fill="#050810"
+                                stroke="rgba(191,90,242,0.6)" stroke-width="1" />
+                            <text x="625" y="254" text-anchor="middle" fill="#e5c3ff">SW6-Servers</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Smart FAULT & AD USERS -->
+                <div class="right-vertical-stack">
+                    <!-- Smart FAULT ANALYZER -->
+                    <div class="glass-panel panel-flex" style="flex: 1;">
+                        <div class="panel-header">
+                            <div class="panel-title" style="color:var(--amber)">// RULE-BASED Fault Analyzer</div>
+                            <span class="tag amber">RULE ENGINE</span>
+                        </div>
+                        <div class="panel-body scrollable-y">
+                            <div class="ai-list" id="ai-fault-list">
+                                <div class="loading">Analyzing infrastructure...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AD USERS -->
+                    <div class="glass-panel panel-flex" style="flex: 1;">
+                        <div class="panel-header">
+                            <div class="panel-title">// AD Users</div>
+                            <span class="tag green">ACTIVE DIRECTORY</span>
+                        </div>
+                        <div class="panel-body scrollable-y">
+                            <div class="users-grid" id="users-grid">
+                                <div class="loading">Loading users...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM ROW -->
+            <div class="bottom-section">
+                <!-- TRAFFIC -->
+                <div class="glass-panel panel-flex">
+                    <div class="panel-header">
+                        <div class="panel-title">// Network Traffic</div>
+                        <span class="tag accent" id="traffic-label">Detecting...</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="chart-wrap" id="chart-wrap"></div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:var(--accent-blue);"></div>Inbound
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:var(--green);"></div>Outbound
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DHCP POOLS -->
+                <div class="glass-panel panel-flex">
+                    <div class="panel-header">
+                        <div class="panel-title">// Services & DHCP</div>
+                        <span class="tag accent">POOLS</span>
+                    </div>
+                    <div class="panel-body scrollable-y">
+                        <div class="dhcp-list" id="dhcp-pools">
+                            <div class="loading">Syncing DHCP...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SYSTEM STATUS -->
+                <div class="glass-panel panel-flex">
+                    <div class="panel-header">
+                        <div class="panel-title">System Status</div>
+                        <span class="tag accent" id="last-update">--</span>
+                    </div>
+                    <div class="panel-body server-info">
+                        <p>Domain Controller: <span>network.local</span></p>
+                        <p>Server IPv4: <span>192.168.60.100</span></p>
+                        <p>Data Source: <span id="data-source-label">IIS Hosted data.json</span></p>
+                        <p>Firewall FW-1: <span style="color:var(--green);">ACTIVE</span></p>
+                        <p>Refresh Strategy: <span style="color:var(--green);">Auto-sync</span></p>
+                    </div>
+                </div>
+
+                <!-- ALERTS -->
+                <div class="glass-panel panel-flex">
+                    <div class="panel-header">
+                        <div class="panel-title">// Fault Detection</div>
+                        <span class="tag" id="alert-count">-- events</span>
+                    </div>
+                    <div class="panel-body scrollable-y">
+                        <div class="alerts-list" id="alerts-list">
+                            <div class="loading">Loading alerts...</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
